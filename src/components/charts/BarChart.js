@@ -19,13 +19,13 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const BarChart = ({ chartData }) => {
+const BarChart = ({ chartData, title }) => {
 
   const chartOptions = {
     plugins: {
       title: {
         display: true,
-        text: "Temperature records"
+        text: title
       },
       legend: {
         display: true,
