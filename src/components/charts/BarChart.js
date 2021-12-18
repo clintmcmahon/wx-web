@@ -24,11 +24,11 @@ const BarChart = ({ chartData, title }) => {
   const chartOptions = {
     plugins: {
       title: {
-        display: true,
+        display: false,
         text: title
       },
       legend: {
-        display: true,
+        display: false,
         position: "bottom"
       },
       datalabels: {

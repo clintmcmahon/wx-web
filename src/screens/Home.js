@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DailyRecords from "../components/daily/DailyRecords";
-import CurrentTemp from "../components/daily/CurrentTemp";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
@@ -105,10 +104,9 @@ function Home() {
         }).sort((a, b) => a.name > b.name ? 1 : -1)
             .map((station) => {
                 console.log(station)
-                return { label: station.name, value: station.sids[0]}
+                return { label: station.name, value: station.sids[0] }
             });
 
-            console.log(stationsData)
         setStationOptions(stationsData);
         setSelectedStation(stationsData[0]);
         setIsLoading(false);
@@ -148,13 +146,22 @@ function Home() {
                 </Col>
             </Row>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Current and historical weather for {meta ? meta.name : ""}</h1>
+                <h1 className="h3 mb-0 text-gray-800">Historical weather for the {meta ? meta.name : ""}</h1>
             </div>
             <Row>
-            <Col xl={3} md={6}>
+                <Col xl={3} md={6}>
                     <div className="card border-left-danger shadow h-100 py-2">
                         <div className="card-body">
-                            <CurrentTemp selectedStation={selectedStation.value} />
+                            <div className="row no-gutters align-items-center">
+                                <div className="col mr-2">
+                                    <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                        Something</div>
+                                    <div className="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.high} ℉` : ""}</div>
+                                </div>
+                                <div className="col-auto">
+                                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Col>
@@ -192,7 +199,9 @@ function Home() {
                 </Col>
             </Row>
             <Row>
-                <DailyRecords selectedStation={selectedStation.value} />
+                <Col xs={12} className="mt-4">
+                    <DailyRecords selectedStation={selectedStation.value} />
+                </Col>
             </Row>
 
         </>
