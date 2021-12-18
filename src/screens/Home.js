@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DailyRecords from "../components/dailyrecords/DailyRecords";
+import DailyRecords from "../components/daily/DailyRecords";
+import CurrentTemp from "../components/daily/CurrentTemp";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
@@ -28,7 +29,7 @@ function Home() {
         setIsLoading(true);
         const fetchRecords = async () => {
 
-            const _query = {
+            const normalsQuery = {
                 sid: selectedStation.value,
                 sDate: longDate,
                 eDate: longDate,
@@ -38,14 +39,14 @@ function Home() {
                         "interval": "dly",
                         "duration": "dly",
                         "normal": "1",
-                        "prec": 2
+                        "prec": 0
                     },
                     {
                         "name": "mint",
                         "interval": "dly",
                         "duration": "dly",
                         "normal": "1",
-                        "prec": 2
+                        "prec": 0
                     }
                 ]
             };
@@ -58,7 +59,7 @@ function Home() {
                     'Content-Type': 'application/json'
                 },
                 redirect: 'follow',
-                body: JSON.stringify(_query)
+                body: JSON.stringify(normalsQuery)
             });
             const json = await response.json();
 
@@ -82,7 +83,7 @@ function Home() {
         const getStationsQuery = {
             sdate: "1871-01-01",
             edate: "2021-12-31",
-            meta: ["name", "sids"],
+            meta: ["name", "sids", "ll"],
             elems: "maxt,mint",
             state: e.value
         };
@@ -99,14 +100,15 @@ function Home() {
         });
 
         const data = await response.json();
-
         const stationsData = data.meta.filter(station => {
             return station.name.toLowerCase().includes("area")
         }).sort((a, b) => a.name > b.name ? 1 : -1)
             .map((station) => {
-                return { label: station.name, value: station.sids[0] }
+                console.log(station)
+                return { label: station.name, value: station.sids[0]}
             });
 
+            console.log(stationsData)
         setStationOptions(stationsData);
         setSelectedStation(stationsData[0]);
         setIsLoading(false);
@@ -138,7 +140,7 @@ function Home() {
                             </Col>
                             <Col md={4}>
                                 <Form.Label>Date</Form.Label>
-                                <Form.Control placeholder={selectedDate} disabled />
+                                <Form.Control placeholder={dateName} disabled />
                             </Col>
                         </Row>
                     </Form.Group>
@@ -146,36 +148,43 @@ function Home() {
                 </Col>
             </Row>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Current and historical weather for {meta ? meta.name : ""}</h1>
+                <h1 className="h3 mb-0 text-gray-800">Current and historical weather for {meta ? meta.name : ""}</h1>
             </div>
             <Row>
+            <Col xl={3} md={6}>
+                    <div className="card border-left-danger shadow h-100 py-2">
+                        <div className="card-body">
+                            <CurrentTemp selectedStation={selectedStation.value} />
+                        </div>
+                    </div>
+                </Col>
                 <Col xl={3} md={6}>
-                    <div class="card border-left-danger shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                    <div className="card border-left-danger shadow h-100 py-2">
+                        <div className="card-body">
+                            <div className="row no-gutters align-items-center">
+                                <div className="col mr-2">
+                                    <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                         Normal High</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.high} ℉` : ""}</div>
+                                    <div className="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.high} ℉` : ""}</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                <div className="col-auto">
+                                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </Col>
                 <Col xl={3} md={6}>
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    <div className="card border-left-primary shadow h-100 py-2">
+                        <div className="card-body">
+                            <div className="row no-gutters align-items-center">
+                                <div className="col mr-2">
+                                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Normal Low</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.low} ℉` : ""}</div>
+                                    <div className="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.low} ℉` : ""}</div>
                                 </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                <div className="col-auto">
+                                    <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
