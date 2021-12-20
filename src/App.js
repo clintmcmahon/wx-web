@@ -18,7 +18,9 @@ function App() {
           <Col className="mt-4">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="about" element={<About />} />
+              <Route path="/about" element={<About />} />
+              <Route path="*" element={<Home />} />
+
             </Routes>
           </Col>
         </Row>

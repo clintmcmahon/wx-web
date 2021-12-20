@@ -116,7 +116,7 @@ function DailyRecords({ selectedStation }) {
       <Col xs={12} md={6}>
         <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">{`Top Ten Record High Temperatures For ${dateName}`}</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{`Record Highs`}</h6>
           </div>
           <div className="card-body">
             {highs &&
@@ -130,12 +130,11 @@ function DailyRecords({ selectedStation }) {
       <Col xs={12} md={6}>
       <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">{`Top Ten Record Low Temperatures For ${dateName}`}</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{`Record Lows`}</h6>
           </div>
           <div className="card-body">
             {lows &&
               <BarChart
-                title={`Top Ten Record Low Temperatures For ${dateName}`}
                 chartData={lows} />
             }
           </div>
