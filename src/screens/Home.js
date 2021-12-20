@@ -112,9 +112,9 @@ function Home() {
         const json = await response.json();
         setRecords({
             highTemp: json.smry[0][0][0],
-            highDate: json.smry[0][0][1],
+            highDate: json.smry[0][0][1] ? new Date(json.smry[0][0][1]) : "",
             lowTemp: json.smry[1][0][0],
-            lowDate: json.smry[1][0][1],
+            lowDate: json.smry[1][0][1] ? new Date(json.smry[1][0][1]) : "",
         });
 
         setIsLoading(false);
@@ -221,7 +221,7 @@ return (
                             <div className="col mr-2">
                                 <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                     Record High</div>
-                                <div className="h5 mb-0 font-weight-bold text-gray-800">{records ? `${records.highTemp}℉` : ""}</div>
+                                <div className="h5 mb-0 font-weight-bold text-gray-800">{records ? `${records.highTemp}℉ in ${records.highDate.getFullYear()}` : ""}</div>
                             </div>
                             <div className="col-auto">
                                 <i className="fas fa-calendar fa-2x text-gray-300"></i>
@@ -253,7 +253,7 @@ return (
                             <div className="col mr-2">
                                 <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Record Low</div>
-                                <div className="h5 mb-0 font-weight-bold text-gray-800">{records ? `${records.lowTemp}℉` : ""}</div>
+                                <div className="h5 mb-0 font-weight-bold text-gray-800">{records ? `${records.lowTemp}℉ in ${records.lowDate.getFullYear()}` : ""}</div>
                             </div>
                             <div className="col-auto">
                                 <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
