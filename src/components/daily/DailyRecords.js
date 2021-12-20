@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import BarChart from "../charts/BarChart";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Skeleton from 'react-loading-skeleton'
 
 function DailyRecords({ selectedStation }) {
   const [highs, setHighs] = useState(null);
@@ -10,10 +11,8 @@ function DailyRecords({ selectedStation }) {
 
   const dt = new Date();
   const day = dt.getDate().toString().padStart(2, "0");
-  const year = dt.getFullYear();
   const month = (dt.getMonth() + 1).toString().padStart(2, "0");
   const shortDate = month + "-" + day;
-  const dateName = dt.toLocaleString('en-US', { month: 'long' }) + ' ' + day;
 
   useEffect(() => {
     setIsLoading(true);
@@ -107,8 +106,9 @@ function DailyRecords({ selectedStation }) {
 
       setIsLoading(false);
     }
-
-    fetchRecords();
+    if (selectedStation) {
+      fetchRecords();
+    }
   }, [selectedStation]);
 
   return (
@@ -119,7 +119,10 @@ function DailyRecords({ selectedStation }) {
             <h6 className="m-0 font-weight-bold text-primary">{`Record Highs`}</h6>
           </div>
           <div className="card-body">
-            {highs &&
+            {isLoading &&
+              <Skeleton count={10} />
+            }
+            {!isLoading && highs &&
               <BarChart
                 chartData={highs} />
             }
@@ -128,12 +131,15 @@ function DailyRecords({ selectedStation }) {
 
       </Col>
       <Col xs={12} md={6}>
-      <div className="card shadow mb-4">
+        <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 className="m-0 font-weight-bold text-primary">{`Record Lows`}</h6>
           </div>
           <div className="card-body">
-            {lows &&
+            {isLoading &&
+              <Skeleton count={10} />
+            }
+            {!isLoading && lows &&
               <BarChart
                 chartData={lows} />
             }

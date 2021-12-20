@@ -3,6 +3,7 @@ import Home from "./screens/Home";
 import About from "./screens/About";
 import TopNav from "./components/navigation/TopNav";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-loading-skeleton/dist/skeleton.css'
 import "./sb-admin-2.min.css";
 import './App.css';
 import Container from 'react-bootstrap/Container';
@@ -15,17 +16,23 @@ function App() {
       <TopNav />
       <Container>
         <Row>
-          <Col className="mt-4">
-            <Routes>
-              <Route exact path="/wx-web" element={<Home />} />
-              <Route path="/wx-web/about" element={<About />} />
-              <Route path="*" element={<Home />} />
+          <Col xs={12}>
+            <div id="content-wrapper" className="d-flex flex-column">
+              <Row>
+                <Col className="mt-4">
+                  <Routes>
+                    <Route exact path="/wx-web" element={<Home />} />
+                    <Route path="/wx-web/about" element={<About />} />
+                    <Route path="*" element={<Home />} />
 
-            </Routes>
+                  </Routes>
+                </Col>
+              </Row>
+            </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div >
   );
 }
 
