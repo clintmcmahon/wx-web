@@ -8,7 +8,7 @@ function TopNav() {
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
-                <Navbar.Brand href="/wx-web">WX Data Explorer</Navbar.Brand>
+                <Navbar.Brand href="/wx-web">WX Records</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
