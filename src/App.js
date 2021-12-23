@@ -21,8 +21,8 @@ function App() {
               <Row>
                 <Col className="mt-4">
                   <Routes>
-                    <Route exact path="/wx-web" element={<Home />} />
-                    <Route path="/wx-web/about" element={<About />} />
+                    <Route exact path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
                     <Route path="*" element={<Home />} />
 
                   </Routes>
