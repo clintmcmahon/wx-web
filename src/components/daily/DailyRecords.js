@@ -4,15 +4,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Skeleton from 'react-loading-skeleton'
 
-function DailyRecords({ selectedStation }) {
+function DailyRecords({ selectedStation, selectedDate }) {
   const [highs, setHighs] = useState(null);
   const [lows, setLows] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const dt = new Date();
-  const day = dt.getDate().toString().padStart(2, "0");
-  const month = (dt.getMonth() + 1).toString().padStart(2, "0");
+  const day = selectedDate.getDate().toString().padStart(2, "0");
+  const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
   const shortDate = month + "-" + day;
+  const dateName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + day;
 
   useEffect(() => {
     setIsLoading(true);
@@ -60,6 +60,7 @@ function DailyRecords({ selectedStation }) {
           "valid_daterange"
         ]
       };
+
       const url = "https://data.rcc-acis.org/StnData";
 
       const response = await fetch(url, {
@@ -70,12 +71,13 @@ function DailyRecords({ selectedStation }) {
         redirect: 'follow',
         body: JSON.stringify(_query)
       });
+
       const data = await response.json();
 
       let highsData = data.smry[0][0].map(item => {
         var newDate = new Date(item[1]);
         return { temp: item[0], date: newDate.getFullYear() }
-      }).sort((a, b) => a.date > b.date ? 1 : -1);;
+      });//.sort((a, b) => a.date > b.date ? 1 : -1);
 
       setHighs({
         labels: highsData.map((record) => record.date),
@@ -91,7 +93,7 @@ function DailyRecords({ selectedStation }) {
       let lowsData = data.smry[1][0].map(item => {
         var newDate = new Date(item[1]);
         return { temp: item[0], date: newDate.getFullYear() }
-      }).sort((a, b) => a.date > b.date ? 1 : -1);;
+      });//.sort((a, b) => a.date > b.date ? 1 : -1);;
 
       setLows({
         labels: lowsData.map((record) => record.date),
@@ -109,14 +111,14 @@ function DailyRecords({ selectedStation }) {
     if (selectedStation) {
       fetchRecords();
     }
-  }, [selectedStation]);
+  }, [selectedStation, selectedDate]);
 
   return (
     <Row>
       <Col xs={12} md={6}>
         <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">{`Record Highs`}</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{`All time record highs for ${dateName}`}</h6>
           </div>
           <div className="card-body">
             {isLoading &&
@@ -133,7 +135,7 @@ function DailyRecords({ selectedStation }) {
       <Col xs={12} md={6}>
         <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">{`Record Lows`}</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{`All time record lows for ${dateName}`}</h6>
           </div>
           <div className="card-body">
             {isLoading &&
