@@ -4,8 +4,12 @@ import Col from 'react-bootstrap/Col';
 import Skeleton from 'react-loading-skeleton'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import highchartsMore from 'highcharts/highcharts-more';
-highchartsMore(Highcharts);
+import HighchartsMore from 'highcharts/highcharts-more';
+import HC_exporting from 'highcharts/modules/exporting'
+
+HighchartsMore(Highcharts);
+HC_exporting(Highcharts);
+
 function MonthNormalObserved({ selectedStation, selectedDate }) {
   const [temps, setTemps] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +18,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
   const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
   const year = selectedDate.getFullYear();
   const shortDate = month + "-" + day;
+  const monthName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + year;
   const dateName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + day;
   const url = "https://data.rcc-acis.org/StnData";
 
@@ -31,7 +36,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
         ],
         sid: selectedStation,
         "sDate": year + "-" + month + "-01",
-        "eDate": year + "-" + month + "-" + day
+        "eDate": year + "-" + month + "-" + new Date(year, month, 0).getDate()
       }
 
       const response = await fetch(url, {
@@ -50,18 +55,19 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       let normalsData = [];
       let categories = [];
 
-      data.data.map((item) => {
-        const splitDate = item[0].split("-");
-        const date = splitDate[1] + "-" + splitDate[2];
-        categories.push(date);
-        highsData.push([date, parseFloat(item[1])]);
-        lowsData.push([date, parseFloat(item[2])]);
-        normalsData.push([date, parseFloat(item[3]), parseFloat(item[4])]);
-      });
-
+      if (data && data.data && data.data.length > 0) {
+        data.data.map((item) => {
+          const splitDate = item[0].split("-");
+          const date = splitDate[1] + "-" + splitDate[2];
+          categories.push(date);
+          highsData.push([date, parseFloat(item[1])]);
+          lowsData.push([date, parseFloat(item[2])]);
+          normalsData.push([date, parseFloat(item[3]), parseFloat(item[4])]);
+        });
+      }
       const options = {
         title: {
-          text: 'Monthly temperature trend'
+          text: `${monthName} temperature trends`
         },
 
         xAxis: {
@@ -81,19 +87,19 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
         },
         plotOptions: {
           line: {
-              dataLabels: {
-                  enabled: true
-              },
-             
+            dataLabels: {
+              enabled: true
+            },
+
           }
-      },
+        },
         series: [{
           name: 'High',
           color: "#F3453F",
           data: highsData,
           zIndex: 1,
-          
-        }, 
+
+        },
         {
           name: 'Low',
           color: "#2A4473",
@@ -105,7 +111,6 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
           data: normalsData,
           type: 'arearange',
           lineWidth: 0,
-          linkedTo: ':previous',
           fillOpacity: 0.3,
           zIndex: 0,
           marker: {
@@ -129,7 +134,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       <Col xs={12}>
         <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">{`Monthly data trends`}</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{`${monthName} temperature trends`}</h6>
           </div>
           <div className="card-body">
             {isLoading &&

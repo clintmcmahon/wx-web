@@ -25,8 +25,6 @@ function Home() {
     const dataUrl = "https://data.rcc-acis.org/StnData";
     const metaUrl = "https://data.rcc-acis.org/StnMeta";
 
-    //const dateName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + day;
-
     useEffect(() => {
         setIsLoading(true);
 
@@ -230,7 +228,11 @@ function Home() {
                             </Col>
                             <Col md={4}>
                                 <Form.Label>Date</Form.Label>
-                                <DatePicker className="form-control" selected={selectedDate} onChange={selectedDateChange} />
+                                <DatePicker 
+                                    className="form-control" 
+                                    selected={selectedDate} 
+                                    onChange={selectedDateChange}
+                                    />
                             </Col>
                         </Row>
                     </Form.Group>
