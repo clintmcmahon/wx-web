@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DailyRecords from "../components/daily/DailyRecords";
+import MonthNormalObserved from "../components/monthly/MonthNormalObserved";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
@@ -381,6 +382,11 @@ function Home() {
             <Row>
                 <Col xs={12} className="mt-4">
                     <DailyRecords selectedStation={selectedStation ? selectedStation.value : null} selectedDate={selectedDate}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={12} className="mt-4">
+                    <MonthNormalObserved selectedStation={selectedStation ? selectedStation.value : null} selectedDate={selectedDate}/>
                 </Col>
             </Row>
 
