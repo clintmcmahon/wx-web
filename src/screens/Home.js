@@ -125,6 +125,28 @@ function Home() {
                         "smry_only": 1,
                         "groupby": ["year", shortDate, shortDate]
                     },
+                    {
+                        "name": "snow",
+                        "interval": "dly",
+                        "duration": "dly",
+                        "smry": {
+                            "reduce": "max",
+                            "add": "date"
+                        },
+                        "smry_only": 1,
+                        "groupby": ["year", shortDate, shortDate]
+                    },
+                    {
+                        "name": "pcpn",
+                        "interval": "dly",
+                        "duration": "dly",
+                        "smry": {
+                            "reduce": "max",
+                            "add": "date"
+                        },
+                        "smry_only": 1,
+                        "groupby": ["year", shortDate, shortDate]
+                    }
                     
                 ],
                 "sDate": "por", 
@@ -150,7 +172,11 @@ function Home() {
                 coldHigh: json.smry[2][0][0],
                 coldDate: json.smry[2][0][1] ? new Date(json.smry[2][0][1]) : "",
                 warmLow: json.smry[3][0][0],
-                warmDate: json.smry[3][0][1] ? new Date(json.smry[3][0][1]) : ""
+                warmDate: json.smry[3][0][1] ? new Date(json.smry[3][0][1]) : "",
+                mostSnow: json.smry[4][0][0],
+                mostSnowDate: json.smry[4][0][1] ? new Date(json.smry[4][0][1]) : "",
+                mostPrecip: json.smry[5][0][0],
+                mostPrecipDate: json.smry[5][0][1] ? new Date(json.smry[5][0][1]) : "",
             });
 
             setIsLoading(false);
@@ -248,11 +274,33 @@ function Home() {
                 }
             </div>
             <Row>
-                <Col s={6} md={4} className="mb-2">
+            <Col s={6} md={4} className="mb-2">
                     <div className="card border-left-danger shadow h-100 py-2">
                         <div className="card-body">
                             <div className="row no-gutters align-items-center">
                                 <div className="col mr-2">
+                                    <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                        Record High {records ? `(${records.highDate.getFullYear()})` : "" }
+                                    </div>
+                                    {isLoading &&
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800"><Skeleton width={100} /></div>
+                                    }
+                                    {!isLoading &&
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{records ? `${records.highTemp}℉` : ""}</div>
+                                    }
+                                </div>
+                                <div className="col-auto">
+                                    <i className="fas fa-temperature-hot fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Col>
+                <Col s={6} md={4} className="mb-2">
+                    <div className="card border-left-danger shadow h-100 py-2">
+                        <div className="card-body">
+                            <div className="row no-gutters align-items-center">
+                                <div className="col">
                                     <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                         Normal High
                                     </div>
@@ -265,28 +313,6 @@ function Home() {
                                 </div>
                                 <div className="col-auto">
                                     <i className="fas fa-thermometer-three-quarters fa-2x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Col>
-                <Col s={6} md={4} className="mb-2">
-                    <div className="card border-left-danger shadow h-100 py-2">
-                        <div className="card-body">
-                            <div className="row no-gutters align-items-center">
-                                <div className="col mr-2">
-                                    <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                        Record High {records ? `(${records.highDate.getFullYear()})` : ""}
-                                    </div>
-                                    {isLoading &&
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800"><Skeleton width={100} /></div>
-                                    }
-                                    {!isLoading &&
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{records ? `${records.highTemp}℉` : ""}</div>
-                                    }
-                                </div>
-                                <div className="col-auto">
-                                    <i className="fas fa-temperature-hot fa-2x"></i>
                                 </div>
                             </div>
                         </div>
@@ -320,28 +346,6 @@ function Home() {
                             <div className="row no-gutters align-items-center">
                                 <div className="col mr-2">
                                     <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Normal Low
-                                    </div>
-                                    {isLoading &&
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800"><Skeleton width={100} /></div>
-                                    }
-                                    {!isLoading &&
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.low}℉` : ""}</div>
-                                    }
-                                </div>
-                                <div className="col-auto">
-                                    <i className="fas fa-thermometer-quarter fa-2x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Col>
-                <Col s={6} md={4} className="mb-2">
-                    <div className="card border-left-primary shadow h-100 py-2">
-                        <div className="card-body">
-                            <div className="row no-gutters align-items-center">
-                                <div className="col mr-2">
-                                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Record Low {records ? `(${records.lowDate.getFullYear()})` : "" }
                                     </div>
                                     {isLoading &&
@@ -353,6 +357,28 @@ function Home() {
                                 </div>
                                 <div className="col-auto">
                                     <i className="fas fa-temperature-frigid fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Col>
+                <Col s={6} md={4} className="mb-2">
+                    <div className="card border-left-primary shadow h-100 py-2">
+                        <div className="card-body">
+                            <div className="row no-gutters align-items-center">
+                                <div className="col mr-2">
+                                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Normal Low
+                                    </div>
+                                    {isLoading &&
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800"><Skeleton width={100} /></div>
+                                    }
+                                    {!isLoading &&
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{normals ? `${normals.low}℉` : ""}</div>
+                                    }
+                                </div>
+                                <div className="col-auto">
+                                    <i className="fas fa-thermometer-quarter fa-2x"></i>
                                 </div>
                             </div>
                         </div>

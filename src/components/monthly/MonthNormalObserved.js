@@ -13,6 +13,8 @@ HC_exporting(Highcharts);
 function MonthNormalObserved({ selectedStation, selectedDate }) {
   const [temps, setTemps] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [daysAboveAverage, setDaysAboveAverage] = useState(null);
+  const [daysBelowAverage, setDaysBelowAverage] = useState(null);
 
   const day = selectedDate.getDate().toString().padStart(2, "0");
   const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
@@ -54,15 +56,30 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       let lowsData = [];
       let normalsData = [];
       let categories = [];
+      let daysAboveAverage = 0;
+      let daysBelowAverage = 0;
 
       if (data && data.data && data.data.length > 0) {
         data.data.map((item) => {
           const splitDate = item[0].split("-");
           const date = splitDate[1] + "-" + splitDate[2];
+          const high = parseFloat(item[1]);
+          const low = parseFloat(item[2]);
+          const normalHigh = parseFloat(item[3]);
+          const normalLow = parseFloat(item[4]);
+
+          if (high > normalHigh) {
+            daysAboveAverage++;
+          }
+
+          if (low < normalLow) {
+            daysBelowAverage++;
+          }
+
           categories.push(date);
-          highsData.push([date, parseFloat(item[1])]);
-          lowsData.push([date, parseFloat(item[2])]);
-          normalsData.push([date, parseFloat(item[3]), parseFloat(item[4])]);
+          highsData.push([date, high]);
+          lowsData.push([date, low]);
+          normalsData.push([date, normalHigh, normalLow]);
         });
       }
       const options = {
@@ -120,7 +137,8 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       }
 
       setTemps(options);
-
+      setDaysAboveAverage(daysAboveAverage);
+      setDaysBelowAverage(daysBelowAverage);
       setIsLoading(false);
     }
 
@@ -137,6 +155,52 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
             <h6 className="m-0 font-weight-bold text-primary">{`${monthName} temperature trends`}</h6>
           </div>
           <div className="card-body">
+            <Row>
+              <Col s={6} md={4} className="mb-2">
+                <div className="card border-left-danger shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                          Days above normal
+                        </div>
+                        {isLoading &&
+                          <div className="h5 mb-0 font-weight-bold text-gray-800"><Skeleton width={100} /></div>
+                        }
+                        {!isLoading &&
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">{daysAboveAverage ? daysAboveAverage : ""}</div>
+                        }
+                      </div>
+                      <div className="col-auto">
+                        <i className="fas fa-temperature-hot fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col s={6} md={4} className="mb-2">
+                <div className="card border-left-primary shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Days below normal
+                        </div>
+                        {isLoading &&
+                          <div className="h5 mb-0 font-weight-bold text-gray-800"><Skeleton width={100} /></div>
+                        }
+                        {!isLoading &&
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">{daysBelowAverage ? daysBelowAverage : ""}</div>
+                        }
+                      </div>
+                      <div className="col-auto">
+                        <i className="fas fa-temperature-frigid fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
             {isLoading &&
               <Skeleton count={10} />
             }
