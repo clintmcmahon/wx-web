@@ -9,6 +9,7 @@ import Select from 'react-select';
 import Skeleton from 'react-loading-skeleton';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import NormalSnowPrecipitation from "../components/yearly/NormalSnowPrecipitation";
 
 function Home() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -415,6 +416,11 @@ function Home() {
             <Row>
                 <Col xs={12} className="mt-4">
                     <MonthNormalObserved selectedStation={selectedStation ? selectedStation.value : null} selectedDate={selectedDate}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={12} className="mt-4">
+                    <NormalSnowPrecipitation selectedStation={selectedStation ? selectedStation.value : null} selectedDate={selectedDate}/>
                 </Col>
             </Row>
 
