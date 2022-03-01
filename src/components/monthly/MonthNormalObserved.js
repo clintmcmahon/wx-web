@@ -6,6 +6,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import HighchartsMore from 'highcharts/highcharts-more';
 import HC_exporting from 'highcharts/modules/exporting'
+import sub from 'date-fns/sub'
 
 HighchartsMore(Highcharts);
 HC_exporting(Highcharts);
@@ -16,13 +17,17 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
   const [daysAboveAverage, setDaysAboveAverage] = useState(null);
   const [daysBelowAverage, setDaysBelowAverage] = useState(null);
 
-  const day = selectedDate.getDate().toString().padStart(2, "0");
-  const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
-  const year = selectedDate.getFullYear();
-  const shortDate = month + "-" + day;
-  const monthName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + year;
-  const dateName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + day;
+  const endDay = selectedDate.getDate().toString().padStart(2, "0");
+  const endMonth = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
+  const endYear = selectedDate.getFullYear();
+  const startDate = sub(selectedDate, {
+    days: 30
+  });
+  const startDay = startDate.getDate().toString().padStart(2, "0");
+  const startMonth = (startDate.getMonth() + 1).toString().padStart(2, "0");
+  const startYear = startDate.getFullYear();
   const url = "https://data.rcc-acis.org/StnData";
+  
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,8 +42,8 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
           { name: "mint", "duration": "dly", "normal": "91", "prec": 1 }
         ],
         sid: selectedStation,
-        "sDate": year + "-" + month + "-01",
-        "eDate": year + "-" + month + "-" + new Date(year, month, 0).getDate()
+        "sDate": startYear + "-" + startMonth + "-" + startDay,
+        "eDate": endYear + "-" + endMonth + "-" + endDay
       }
 
       const response = await fetch(url, {
@@ -84,7 +89,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       }
       const options = {
         title: {
-          text: `${monthName} temperature trends`
+          text: `30 day temperature trends`
         },
 
         xAxis: {
@@ -152,7 +157,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       <Col xs={12}>
         <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">{`${monthName} temperature trends`}</h6>
+            <h6 className="m-0 font-weight-bold text-primary">30 day temperature trends</h6>
           </div>
           <div className="card-body">
             <Row>
