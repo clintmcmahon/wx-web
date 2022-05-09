@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import BarChart from "../charts/BarChart";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Skeleton from 'react-loading-skeleton'
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Skeleton from "react-loading-skeleton";
 
 function DailyRecords({ selectedStation, selectedDate }) {
   const [highs, setHighs] = useState(null);
@@ -12,72 +12,62 @@ function DailyRecords({ selectedStation, selectedDate }) {
   const day = selectedDate.getDate().toString().padStart(2, "0");
   const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
   const shortDate = month + "-" + day;
-  const dateName = selectedDate.toLocaleString('en-US', { month: 'long' }) + ' ' + day;
+  const dateName =
+    selectedDate.toLocaleString("en-US", { month: "long" }) + " " + day;
 
   useEffect(() => {
     setIsLoading(true);
     const fetchRecords = async () => {
-
       const _query = {
         sid: selectedStation,
         sdate: "1871-01-01",
-        edate: "2021-12-31",
-        elems: [{
-          name: "maxt",
-          interval: "dly",
-          duration: "dly",
-          smry: {
-            reduce: "max",
-            add: "date",
-            n: 10
+        edate: "2022-12-31",
+        elems: [
+          {
+            name: "maxt",
+            interval: "dly",
+            duration: "dly",
+            smry: {
+              reduce: "max",
+              add: "date",
+              n: 10,
+            },
+            smry_only: 1,
+            groupby: ["year", shortDate, shortDate],
           },
-          smry_only: 1,
-          groupby: [
-            "year",
-            shortDate,
-            shortDate
-          ]
-        },
-        {
-          name: "mint",
-          interval: "dly",
-          duration: "dly",
-          smry: {
-            reduce: "min",
-            add: "date",
-            n: 10
+          {
+            name: "mint",
+            interval: "dly",
+            duration: "dly",
+            smry: {
+              reduce: "min",
+              add: "date",
+              n: 10,
+            },
+            smry_only: 1,
+            groupby: ["year", shortDate, shortDate],
           },
-          smry_only: 1,
-          groupby: [
-            "year",
-            shortDate,
-            shortDate
-          ]
-        }],
-        meta: [
-          "name",
-          "state",
-          "valid_daterange"
-        ]
+        ],
+        meta: ["name", "state", "valid_daterange"],
       };
 
       const url = "https://data.rcc-acis.org/StnData";
 
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        redirect: 'follow',
-        body: JSON.stringify(_query)
+        redirect: "follow",
+        body: JSON.stringify(_query),
       });
 
       const data = await response.json();
 
-      let highsData = data.smry[0][0].map(item => {
+      let highsData = data.smry[0][0].map((item) => {
         var newDate = new Date(item[1]);
-        return { temp: item[0], date: newDate.getFullYear() }
-      });//.sort((a, b) => a.date > b.date ? 1 : -1);
+        return { temp: item[0], date: newDate.getFullYear() };
+      }); //.sort((a, b) => a.date > b.date ? 1 : -1);
 
       setHighs({
         labels: highsData.map((record) => record.date),
@@ -85,15 +75,15 @@ function DailyRecords({ selectedStation, selectedDate }) {
           {
             label: "High Temperature",
             data: highsData.map((record) => record.temp),
-            backgroundColor: 'rgba(231, 8, 8, 0.8)',
-          }
-        ]
+            backgroundColor: "rgba(231, 8, 8, 0.8)",
+          },
+        ],
       });
 
-      let lowsData = data.smry[1][0].map(item => {
+      let lowsData = data.smry[1][0].map((item) => {
         var newDate = new Date(item[1]);
-        return { temp: item[0], date: newDate.getFullYear() }
-      });//.sort((a, b) => a.date > b.date ? 1 : -1);;
+        return { temp: item[0], date: newDate.getFullYear() };
+      }); //.sort((a, b) => a.date > b.date ? 1 : -1);;
 
       setLows({
         labels: lowsData.map((record) => record.date),
@@ -101,13 +91,13 @@ function DailyRecords({ selectedStation, selectedDate }) {
           {
             label: "Low Temperature",
             data: lowsData.map((record) => record.temp),
-            backgroundColor: 'rgba(8, 17, 231, 0.8)',
-          }
-        ]
+            backgroundColor: "rgba(8, 17, 231, 0.8)",
+          },
+        ],
       });
 
       setIsLoading(false);
-    }
+    };
     if (selectedStation) {
       fetchRecords();
     }
@@ -121,16 +111,10 @@ function DailyRecords({ selectedStation, selectedDate }) {
             <h6 className="m-0 font-weight-bold text-primary">{`All time record highs for ${dateName}`}</h6>
           </div>
           <div className="card-body">
-            {isLoading &&
-              <Skeleton count={10} />
-            }
-            {!isLoading && highs &&
-              <BarChart
-                chartData={highs} />
-            }
+            {isLoading && <Skeleton count={10} />}
+            {!isLoading && highs && <BarChart chartData={highs} />}
           </div>
         </div>
-
       </Col>
       <Col xs={12} md={6}>
         <div className="card shadow mb-4">
@@ -138,13 +122,8 @@ function DailyRecords({ selectedStation, selectedDate }) {
             <h6 className="m-0 font-weight-bold text-primary">{`All time record lows for ${dateName}`}</h6>
           </div>
           <div className="card-body">
-            {isLoading &&
-              <Skeleton count={10} />
-            }
-            {!isLoading && lows &&
-              <BarChart
-                chartData={lows} />
-            }
+            {isLoading && <Skeleton count={10} />}
+            {!isLoading && lows && <BarChart chartData={lows} />}
           </div>
         </div>
       </Col>
