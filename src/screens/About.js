@@ -11,7 +11,7 @@ function About() {
         <Col xs={12} className="mt-2">
           <p>
             I created this site to be a simple dashboard to allow users to
-            quickly see how the current temperature in their area compare to
+            quickly see how the current temperatures in their area compare to
             historical temperatures for a given date. Utilizing data from the{" "}
             <a
               href="https://www.rcc-acis.org/aboutacis_overview.html"
