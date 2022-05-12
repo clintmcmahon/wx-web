@@ -10,27 +10,28 @@ function About() {
         </Col>
         <Col xs={12} className="mt-2">
           <p>
-            the data on the site displays daily and monthly temperature highs,
-            lows and normal ranges from weather stations across the United
-            States. As time allows I will add more and more data points to the
-            site.
+            I created this site to be a simple dashboard to allow users to
+            quickly see how the current temperature in their area compare to
+            historical temperatures for a given date. Utilizing data from the{" "}
+            <a
+              href="https://www.rcc-acis.org/aboutacis_overview.html"
+              target="_blank"
+              rel="nofollow noreferrer"
+            >
+              Regional Climate Centers - Applied Climate Information System
+            </a>{" "}
+            web service this site displays record and normal temperatures for a
+            given date from weather stations across the United States.
           </p>
         </Col>
         <Col xs={12} className="mt-2">
           <h3 className="text-gray-800">Contact</h3>
           Feel free to email me with bug reports, feature requests or if you
           found any inaccurate data at{" "}
-          <a href="mailto:clint@cmcmahon.io?subject=Hello, weather nerd">
-            clint@cmcmahon.io
+          <a href="mailto:clintmcmahon@pm.me?subject=Hello, weather nerd">
+            clintmcmahon@pm.me
           </a>
           .
-        </Col>
-        <Col xs={12} className="mt-2">
-          <h3 className="text-gray-800">Planned enhancements</h3>
-          <ul>
-            <li>Daily and monthly precipitation records</li>
-            <li>Daily and monthly snow fall records</li>
-          </ul>
         </Col>
         <Col xs={12} className="mt-2">
           <h3 className="text-gray-800">Data sources</h3>
