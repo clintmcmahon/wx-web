@@ -30,6 +30,10 @@ function About() {
           found any inaccurate data at{" "}
           <a href="mailto:clintmcmahon@pm.me?subject=Hello, weather nerd">
             clintmcmahon@pm.me
+          </a>{" "}
+          or{" "}
+          <a href="https://twitter.com/cwmcmhn" target="_blank" rel="noref">
+            @cwmcmhn
           </a>
           .
         </Col>
