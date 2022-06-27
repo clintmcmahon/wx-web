@@ -12,9 +12,9 @@ function App() {
   return (
     <div className="App">
       <Provider store={store}>
-      <TopNav />
-            <Container>
-        <RootNavigator />
+        <TopNav />
+        <Container>
+          <RootNavigator />
         </Container>
       </Provider>
     </div >
