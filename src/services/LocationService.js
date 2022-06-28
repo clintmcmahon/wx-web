@@ -3,7 +3,7 @@ import stationData from "../data/stationData.json";
 export const setLocation = (value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    localStorage.setItem("location", jsonValue);
+    document.cookie="location=" + jsonValue;
   } catch (e) {
     // saving error
   }
@@ -12,9 +12,15 @@ export const setLocation = (value) => {
 export const getLocation = () => {
   try {
     const jsonValue = localStorage.getItem("location");
-    if (jsonValue) {
-      console.log("Found location:" + JSON.stringify(jsonValue));
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    let cookie = {};
+    document.cookie.split(';').forEach(function(el) {
+      let [key,value] = el.split('=');
+      cookie[key.trim()] = value;
+    })
+    
+    if (cookie["location"]) {
+      console.log("Found location:" + JSON.stringify(cookie["location"]));
+      return JSON.parse(cookie["location"]);
     }
     else
     {
