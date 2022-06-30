@@ -10,7 +10,27 @@ function About() {
         </Col>
         <Col xs={12} className="mt-2">
           <p>
-            Look up record temperatures and normal temperatures for cities across the United States.
+            Look up record temperatures and normal temperatures for cities across the United States. With this dashboard
+            you can find out what the record temperature is for any given date for major cities in the US. <br /><br />
+            Along with record highs and lows, this site also displays:
+            <ul>
+              <li>
+                Top ten record high temperatures
+              </li>
+              <li>
+                Top ten record low temperatures
+              </li>
+              <li>
+                Record highest nightime low temperature
+              </li>
+              <li>
+                Recorded vs normal precipitation for the year
+              </li>
+              <li>
+                Recorded vs normal snowfall for the year
+              </li>
+            </ul>
+            
             Utilizing data from the{" "}
             <a
               href="https://www.rcc-acis.org/aboutacis_overview.html"
