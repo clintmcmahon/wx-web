@@ -6,16 +6,11 @@ import "./sb-admin-2.min.css";
 import './App.css';
 import store from './store/store';
 import { Provider } from 'react-redux';
-import TopNav from "./components/navigation/TopNav";
-import Container from 'react-bootstrap/Container';
 function App() {
   return (
-    <div className="App">
+    <div id="wrapper">
       <Provider store={store}>
-        <TopNav />
-        <Container>
           <RootNavigator />
-        </Container>
       </Provider>
     </div >
   );

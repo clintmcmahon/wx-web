@@ -10,6 +10,8 @@ import { Routes, Route } from "react-router-dom";
 import * as locationService from "../../services/LocationService";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeLocation } from '../../actions/locations';
+import Sidebar from "./Sidebar";
+import TopNav from "./TopNav";
 
 function RootNavigator() {
     const dispatch = useDispatch();
@@ -44,21 +46,14 @@ function RootNavigator() {
         )
     }
     return (
-        <Row>
-            <Col xs={12}>
-                <div id="content-wrapper" className="d-flex flex-column">
-                    <Row>
-                        <Col className="mt-4">
-                            <Routes>
-                                <Route exact path="/" element={<Home />} />
-                                <Route path="/about" element={<About />} />
-                                <Route path="*" element={<Home />} />
-                            </Routes>
-                        </Col>
-                    </Row>
-                </div>
-            </Col>
-        </Row>
+        <>
+        <Sidebar />
+        <div id="content-wrapper">
+            <div id="content">
+                <TopNav />
+            </div>
+        </div>
+        </>
     );
 }
 

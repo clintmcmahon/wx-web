@@ -2,3 +2,11 @@ body,
 .form-control{
     color: #444444;
 }
+
+.topbar{
+    height: auto;
+}
+
+.sidebar-brand-text{
+    font-size: 12px;
+}
