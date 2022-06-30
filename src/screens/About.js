@@ -10,9 +10,8 @@ function About() {
         </Col>
         <Col xs={12} className="mt-2">
           <p>
-            I created this site to be a simple dashboard to allow users to
-            quickly see how the current temperatures in their area compare to
-            historical temperatures for a given date. Utilizing data from the{" "}
+            Look up record temperatures and normal temperatures for cities across the United States.
+            Utilizing data from the{" "}
             <a
               href="https://www.rcc-acis.org/aboutacis_overview.html"
               target="_blank"
