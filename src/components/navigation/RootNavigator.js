@@ -1,6 +1,6 @@
 
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Home from "../../screens/Home";
 import About from "../../screens/About";
 
@@ -23,8 +23,7 @@ function RootNavigator() {
             if (location) {
                 dispatch(changeLocation(location));
             }
-            else
-            {
+            else {
                 alert('no location found')
             }
         }
@@ -47,12 +46,19 @@ function RootNavigator() {
     }
     return (
         <>
-        <Sidebar />
-        <div id="content-wrapper">
-            <div id="content">
-                <TopNav />
+            <Sidebar />
+            <div id="content-wrapper">
+                <div id="content">
+                  
+
+                    <Routes>
+                        <Route exact path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="*" element={<Home />} />
+                    </Routes>
+                   
+                </div>
             </div>
-        </div>
         </>
     );
 }

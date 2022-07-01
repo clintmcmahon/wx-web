@@ -3,8 +3,8 @@ import Col from "react-bootstrap/Col";
 
 function About() {
   return (
-    <>
-      <Row className="mb-4">
+    <div class="container-fluid">
+      <Row className="mb-4 mt-4">
         <Col xs={12}>
           <h1 className="h3 mb-0 text-gray-800">About</h1>
         </Col>
@@ -89,7 +89,7 @@ function About() {
           .
         </Col>
       </Row>
-    </>
+    </div>
   );
 }
 

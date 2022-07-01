@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import * as locationService from "../services/LocationService";
 import NormalSnowfall from "../components/yearly/NormalSnowfall";
 import NormalPrecip from "../components/yearly/NormalPrecip";
-
+import TopNav from "../components/navigation/TopNav";
 function Home() {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -201,7 +201,8 @@ function Home() {
 
     return (
         <>
-            <SetLocation />
+          <TopNav />
+          <div class="container-fluid">
             <Row>
                 <Col xs={12} className="form-group">
                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -410,6 +411,7 @@ function Home() {
                     </Row>
                 </Col>
             </Row>
+            </div>
         </>
     )
 }
