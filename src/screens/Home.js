@@ -202,7 +202,7 @@ function Home() {
     return (
         <>
           <TopNav />
-          <div class="container-fluid">
+          <div className="container-fluid">
             <Row>
                 <Col xs={12} className="form-group">
                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -212,7 +212,7 @@ function Home() {
                             </h1>
                         )}
                         {!isLoading && (
-                            <h1 className="h3 mb-0 text-gray-800">{`Temperature data for ${dateName}`}</h1>
+                            <h1 className="h3 mb-0 text-gray-800">{`${dateName}`}</h1>
                         )}
                     </div>
                     <Row>

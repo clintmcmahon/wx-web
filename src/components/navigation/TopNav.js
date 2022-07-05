@@ -5,18 +5,27 @@ import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
 import SetLocation from "../location/SetLocation";
 
-function TopNav() {
+function TopNav(props) {
     return (
-        <nav className="navbar navbar-expand-md navbar-light bg-white topbar mb-4 static-top shadow">
-            <button aria-controls="basic-navbar-nav" type="button" aria-label="Toggle navigation" className="navbar-toggler collapsed"><span className="navbar-toggler-icon"></span></button>
-            <div className="navbar-collapse collapse d-md-none" id="basic-navbar-nav">
-                <div className="me-auto navbar-nav">
-                    <Link className="nav-link" to="/">Home</Link>
-                    <Link className="nav-link" to="/about">About</Link>
+        <div className="bg-white topbar mb-4 static-top shadow">
+            <Navbar bg="dark" variant="dark" expand="lg" className="d-md-none">
+                <Container>
+                    <Navbar.Brand href="/">Are these temps normal?</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <Link className="nav-link" to="/">Home</Link>
+                            <Link className="nav-link" to="/about">About</Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            {!props.hideLocation &&
+                <div className="p-4">
+                    <SetLocation />
                 </div>
-            </div>
-            <SetLocation />
-        </nav>
+            }
+        </div>
     )
 }
 

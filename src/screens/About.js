@@ -1,9 +1,11 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
+import TopNav from "../components/navigation/TopNav"
 function About() {
   return (
-    <div class="container-fluid">
+    <>
+    <TopNav hideLocation={true} />
+    <div className="container-fluid">
       <Row className="mb-4 mt-4">
         <Col xs={12}>
           <h1 className="h3 mb-0 text-gray-800">About</h1>
@@ -90,6 +92,7 @@ function About() {
         </Col>
       </Row>
     </div>
+    </>
   );
 }
 

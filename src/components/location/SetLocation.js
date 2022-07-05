@@ -110,7 +110,7 @@ function SetLocation() {
       <Col xs={12}>
         <Form.Group controlId="formBasicEmail">
           <Row>
-            <Col md={4}>
+            <Col md={4} xs={12}>
               <Form.Label>State</Form.Label>
               <Select
                 className="wx-select"
@@ -119,7 +119,7 @@ function SetLocation() {
                 options={stateOptions ? stateOptions : []}
               />
             </Col>
-            <Col>
+            <Col md={4} xs={12}>
               <Form.Label>Weather Station/Area</Form.Label>
               <Select
                 className="wx-select"
@@ -127,7 +127,7 @@ function SetLocation() {
                 onChange={(station) => setStation(station)}
                 options={stationOptions && !isLoading ? stationOptions : []} />
             </Col>
-            <Col>
+            <Col md={4} xs={12}>
               <Form.Label>Date</Form.Label>
               <DatePicker
                 className="form-control"
