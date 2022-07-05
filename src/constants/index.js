@@ -1,1 +1,2 @@
 export const LOCATION_CHANGE = 'LOCATION_CHANGE';
+export const DATE_CHANGE = 'DATE_CHANGE';

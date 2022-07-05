@@ -1,8 +1,8 @@
-import { LOCATION_CHANGE } from '../constants';
-import * as locationService from "../services/LocationService";
+import { LOCATION_CHANGE,DATE_CHANGE } from '../constants';
 
 const initialState = {
-    location: null
+    location: null, 
+    date: new Date()
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -11,6 +11,11 @@ const locationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 location: action.payload
+            };
+            case DATE_CHANGE:
+            return {
+                ...state,
+                date: action.payload
             };
         default:
             return state;

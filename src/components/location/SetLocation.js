@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeLocation } from "../../actions/locations";
+import { changeLocation, changeDate } from "../../actions/locations";
 import stationData from "../../data/stationData.json";
 import * as locationService from "../../services/LocationService";
 import Row from 'react-bootstrap/Row';
@@ -103,6 +103,7 @@ function SetLocation() {
 
   const selectedDateChange = (date) => {
     setSelectedDate(date)
+    dispatch(changeDate(date));
   }
 
   return (

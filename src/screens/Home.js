@@ -18,7 +18,6 @@ import NormalPrecip from "../components/yearly/NormalPrecip";
 import TopNav from "../components/navigation/TopNav";
 function Home() {
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
     const [dateName, setDateName] = useState("");
 
     const [meta, setMeta] = useState(null);
@@ -29,9 +28,10 @@ function Home() {
     const dataUrl = "https://data.rcc-acis.org/StnData";
     const metaUrl = "https://data.rcc-acis.org/StnMeta";
     const state = useSelector((state) => state);
+    const selectedDate = state.date;
     useEffect(() => {
         setIsLoading(true);
-
+      
         const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
         const day = selectedDate.getDate().toString().padStart(2, "0");
         const year = selectedDate.getFullYear();
@@ -192,12 +192,7 @@ function Home() {
             fetchNormals();
             fetchRecords();
         }
-    }, [state.location.station, selectedDate]);
-
-    const selectedDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
+    }, [state.location.station, state.date]);
 
     return (
         <>
