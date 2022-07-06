@@ -1,7 +1,4 @@
 import React from "react";
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
 
 function Sidebar() {
@@ -19,10 +16,11 @@ function Sidebar() {
             <hr className="sidebar-divider my-0" />
             <li className="nav-item active">
                 <Link className="nav-link" to="/">
-                    <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <i className="fas fa-fw fa-temperature-hot"></i>
+                    <span>Temperatures</span>
                 </Link>
             </li>
+            
             <li className="nav-item active">
                 <Link className="nav-link" to="/about">
                     <i className="fas fa-fw fa-info-square"></i>

@@ -77,7 +77,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
             daysAboveAverage++;
           }
 
-          if (low < normalLow) {
+          if (high < normalHigh) {
             daysBelowAverage++;
           }
 
@@ -89,7 +89,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       }
       const options = {
         title: {
-          text: `30 day temperature trends`
+          text: `Recent temperatures`
         },
 
         xAxis: {
@@ -157,7 +157,7 @@ function MonthNormalObserved({ selectedStation, selectedDate }) {
       <Col xs={12}>
         <div className="card shadow mb-4">
           <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 className="m-0 font-weight-bold text-primary">30 day temperature trends</h6>
+            <h6 className="m-0 font-weight-bold text-primary">Recent temperatures</h6>
           </div>
           <div className="card-body">
             <Row>

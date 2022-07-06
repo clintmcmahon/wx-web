@@ -9,11 +9,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import NormalSnowfall from "../components/yearly/NormalSnowfall";
 import NormalPrecip from "../components/yearly/NormalPrecip";
 import TopNav from "../components/navigation/TopNav";
-function Home() {
+function Precipitation() {
 
     const [dateName, setDateName] = useState("");
 
-    const [meta, setMeta] = useState(null);
     const [normals, setNormals] = useState(null);
     const [records, setRecords] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -405,4 +404,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default Precipitation;
