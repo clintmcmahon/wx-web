@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeLocation, changeDate } from "../../actions/locations";
+import { changeLocation } from "../../actions/locations";
 import stationData from "../../data/stationData.json";
 import * as locationService from "../../services/LocationService";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
 import Select from 'react-select';
-import DatePicker from "react-datepicker";
+import SetDate from "../navigation/SetDate";
 
 function SetLocation() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedState, setSelectedState] = useState(null);
-  const [selectedStations, setSelectedStations] = useState([]);
   const [selectedStation, setSelectedStation] = useState(null);
   const [stateOptions, setStateOptions] = useState(null);
   const [stationOptions, setStationOptions] = useState(null);
@@ -101,11 +99,6 @@ function SetLocation() {
     setSelectedStation(station);
   };
 
-  const selectedDateChange = (date) => {
-    setSelectedDate(date)
-    dispatch(changeDate(date));
-  }
-
   return (
     <Row>
       <Col xs={12}>
@@ -129,12 +122,7 @@ function SetLocation() {
                 options={stationOptions && !isLoading ? stationOptions : []} />
             </Col>
             <Col md={4} xs={12}>
-              <Form.Label>Date</Form.Label>
-              <DatePicker
-                className="form-control"
-                selected={selectedDate}
-                onChange={selectedDateChange}
-              />
+              <SetDate />
             </Col>
           </Row>
         </Form.Group>

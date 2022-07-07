@@ -105,6 +105,103 @@ export const getRecords = async (selectedStation, startDate, endDate) => {
   return records;
 };
 
+export const getMonthlyRecords = async (selectedStation, startDate, endDate) => {
+  const recordsQuery = {
+    sid: selectedStation,
+    elems: [
+      {
+        name: "maxt",
+        interval: "dly",
+        duration: "dly",
+        smry: {
+          reduce: "max",
+          add: "date",
+        },
+        smry_only: 1,
+        groupby: ["year", startDate, endDate]
+      },
+      {
+        name: "mint",
+        interval: "dly",
+        duration: "dly",
+        smry: {
+          reduce: "min",
+          add: "date",
+        },
+        smry_only: 1,
+        groupby: ["year", startDate, endDate]
+      },
+      {
+        name: "maxt",
+        interval: "dly",
+        duration: "dly",
+        smry: {
+          reduce: "min",
+          add: "date",
+        },
+        smry_only: 1,
+        groupby: ["year", startDate, endDate]
+      },
+      {
+        name: "mint",
+        interval: "dly",
+        duration: "dly",
+        smry: {
+          reduce: "max",
+          add: "date",
+        },
+        smry_only: 1,
+        groupby: ["year", startDate, endDate]
+      },
+      {
+        name: "snow",
+        interval: "dly",
+        duration: "dly",
+        smry: {
+          reduce: "max",
+          add: "date",
+        },
+        smry_only: 1,
+        groupby: ["year", startDate, endDate]
+      },
+      {
+        name: "pcpn",
+        interval: "dly",
+        duration: "dly",
+        smry: {
+          reduce: "max",
+          add: "date",
+        },
+        smry_only: 1,
+        groupby: ["year", startDate, endDate]
+      },
+    ],
+    sDate: "por",
+    eDate: "por",
+    meta: ["name", "state"]
+  };
+
+  const response = await fetch(dataUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(recordsQuery),
+  });
+  const json = await response.json();
+  const records = {
+    highTemps: json.smry[0],
+    lowTemps: json.smry[1],
+    coldHighs: json.smry[2],
+    warmLows: json.smry[3],
+    snows: json.smry[4],
+    precips: json.smry[5],
+    };
+
+  return records;
+};
+
 export const getNormals = async (selectedStation, startDate, endDate) => {
 
   const normalsQuery = {

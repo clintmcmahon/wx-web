@@ -1,7 +1,7 @@
 
 
 import React, { useEffect } from "react";
-import Home from "../../screens/Home";
+import Temperatures from "../../screens/Temperatures";
 import About from "../../screens/About";
 
 import Row from 'react-bootstrap/Row';
@@ -11,7 +11,8 @@ import * as locationService from "../../services/LocationService";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeLocation } from '../../actions/locations';
 import Sidebar from "./Sidebar";
-import TopNav from "./TopNav";
+import "react-datepicker/dist/react-datepicker.css";
+import MonthlyRecords from "../../screens/MonthlyRecords";
 
 function RootNavigator() {
     const dispatch = useDispatch();
@@ -52,9 +53,10 @@ function RootNavigator() {
                   
 
                     <Routes>
-                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/" element={<Temperatures />} />
                         <Route path="/about" element={<About />} />
-                        <Route path="*" element={<Home />} />
+                        <Route path="/month" element={<MonthlyRecords />} />
+                        <Route path="*" element={<Temperatures />} />
                     </Routes>
                    
                 </div>
