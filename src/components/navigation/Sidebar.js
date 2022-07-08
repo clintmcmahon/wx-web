@@ -8,7 +8,7 @@ function Sidebar() {
                 <div className="sidebar-brand-icon">
                     <i className="fas fa-temperature-hot fa-2x"></i>
                 </div>
-                <div className="sidebar-brand-text mx-3">Are these temps normal?</div>
+                <div className="sidebar-brand-text mx-3">Climate Dashboard</div>
             </Link>
             <hr className="sidebar-divider my-0" />
             <li className="nav-item active">

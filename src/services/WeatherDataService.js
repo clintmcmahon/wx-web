@@ -178,7 +178,7 @@ export const getMonthlyRecords = async (selectedStation, startDate, endDate) => 
     ],
     sDate: "por",
     eDate: "por",
-    meta: ["name", "state"]
+    meta: ["name", "state", "valid_daterange"]
   };
 
   const response = await fetch(dataUrl, {
@@ -197,6 +197,7 @@ export const getMonthlyRecords = async (selectedStation, startDate, endDate) => 
     warmLows: json.smry[3],
     snows: json.smry[4],
     precips: json.smry[5],
+    meta: json.meta
     };
 
   return records;
