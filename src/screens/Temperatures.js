@@ -32,7 +32,7 @@ function Temperatures() {
         setDateName(dateName);
 
         const fetchNormals = async () => {
-            
+
             let normals = await weatherService.getNormals(state.location.station, longDate, longDate);
             setNormals(normals);
 
@@ -66,8 +66,12 @@ function Temperatures() {
                                 </h1>
                             )}
                             {!isLoading && (
-                                <h1 className="h2 mb-0 text-gray-800">{dateName}</h1>)}
-                        </div>
+                                <div>
+                                    
+                                <SetDate />
+                                <div><h1 className="h2 mt-4 text-gray-800">{dateName}</h1> </div>
+                                </div>
+    )}</div>
                         <Row>
                             <Col s={6} md={4} className="mb-2">
                                 <div className="card border-left-danger shadow h-100 py-2">

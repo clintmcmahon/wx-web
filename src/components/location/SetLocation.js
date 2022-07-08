@@ -7,7 +7,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
 import Select from 'react-select';
-import SetDate from "../navigation/SetDate";
 
 function SetLocation() {
   const [selectedState, setSelectedState] = useState(null);
@@ -120,9 +119,6 @@ function SetLocation() {
                 value={!isLoading ? selectedStation : null}
                 onChange={(station) => setStation(station)}
                 options={stationOptions && !isLoading ? stationOptions : []} />
-            </Col>
-            <Col md={4} xs={12}>
-              <SetDate />
             </Col>
           </Row>
         </Form.Group>

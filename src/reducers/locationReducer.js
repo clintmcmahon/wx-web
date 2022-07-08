@@ -1,8 +1,9 @@
-import { LOCATION_CHANGE,DATE_CHANGE } from '../constants';
+import { LOCATION_CHANGE, DATE_CHANGE, MONTH_CHANGE } from '../constants';
 
 const initialState = {
-    location: null, 
-    date: new Date()
+    location: null,
+    date: new Date(),
+    month: ""
 };
 
 const locationReducer = (state = initialState, action) => {
@@ -12,10 +13,15 @@ const locationReducer = (state = initialState, action) => {
                 ...state,
                 location: action.payload
             };
-            case DATE_CHANGE:
+        case DATE_CHANGE:
             return {
                 ...state,
                 date: action.payload
+            };
+        case MONTH_CHANGE:
+            return {
+                ...state,
+                month: action.payload
             };
         default:
             return state;

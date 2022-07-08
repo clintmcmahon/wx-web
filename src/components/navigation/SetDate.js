@@ -24,7 +24,7 @@ function SetDate() {
         <Form.Group controlId="formBasicEmail">
           <Row>
             <Col xs={12}>
-              <Form.Label>Choose a day or month</Form.Label>
+              <Form.Label>Choose a day</Form.Label>
               <DatePicker
                 className="form-control"
                 selected={selectedDate}

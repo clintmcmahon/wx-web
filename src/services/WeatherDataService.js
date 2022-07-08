@@ -106,6 +106,30 @@ export const getRecords = async (selectedStation, startDate, endDate) => {
 };
 
 export const getMonthlyRecords = async (selectedStation, startDate, endDate) => {
+
+  const [recordsResponse, recordsSummaryResponse] = await Promise.all([
+    getMonthlyRecordsResponse(selectedStation, startDate, endDate),
+    getMonthlySummaryRecordsResponse(selectedStation, startDate.substring(0,2), endDate.substring(0,2))]);
+  const [recordsJson, recordsSummaryJson] = await Promise.all([recordsResponse.json(), recordsSummaryResponse.json()]);
+
+  const records = {
+    highTemps: recordsJson.smry[0],
+    lowTemps: recordsJson.smry[1],
+    coldHighs: recordsJson.smry[2],
+    warmLows: recordsJson.smry[3],
+    snows: recordsJson.smry[4],
+    precips: recordsJson.smry[5],
+    meta: recordsJson.meta,
+    summary: {
+      avgHigh: recordsSummaryJson.smry[0][0][1],
+      avgLow: recordsSummaryJson.smry[0][0][2],
+    }
+  };
+
+  return records;
+};
+
+const getMonthlyRecordsResponse = (selectedStation, startDate, endDate) => {
   const recordsQuery = {
     sid: selectedStation,
     elems: [
@@ -181,7 +205,7 @@ export const getMonthlyRecords = async (selectedStation, startDate, endDate) => 
     meta: ["name", "state", "valid_daterange"]
   };
 
-  const response = await fetch(dataUrl, {
+  return fetch(dataUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -189,19 +213,40 @@ export const getMonthlyRecords = async (selectedStation, startDate, endDate) => 
     redirect: "follow",
     body: JSON.stringify(recordsQuery),
   });
-  const json = await response.json();
-  const records = {
-    highTemps: json.smry[0],
-    lowTemps: json.smry[1],
-    coldHighs: json.smry[2],
-    warmLows: json.smry[3],
-    snows: json.smry[4],
-    precips: json.smry[5],
-    meta: json.meta
-    };
 
-  return records;
-};
+}
+
+const getMonthlySummaryRecordsResponse = (selectedStation, startDate, endDate) => {
+  const recordsQuery = {
+    sid: selectedStation,
+    elems: [
+      {
+        interval: "mly",
+        duration: 1,
+        name: "avgt",
+        reduce:
+        {
+          reduce: "mean"
+        },
+        prec: 3,
+        groupby: ["year", startDate, endDate],
+        smry: [{ "reduce": "mean" }, { "reduce": "max", "add": "date" }, { "reduce": "min", "add": "date" }]
+      }],
+    sDate: "por", 
+    eDate: "por", 
+    meta: ["name", "state", "sids"]
+  }
+
+  return fetch(dataUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(recordsQuery),
+  });
+
+}
 
 export const getNormals = async (selectedStation, startDate, endDate) => {
 

@@ -7,44 +7,45 @@ import Table from "react-bootstrap/Table";
 import TopNav from "../components/navigation/TopNav"
 import * as weatherService from "../services/WeatherDataService";
 import Skeleton from 'react-loading-skeleton';
+import SetMonth from "../components/navigation/SetMonth";
 
 function MonthlyRecords() {
   const [monthName, setMonthName] = useState("");
   const [records, setRecords] = useState(null);
   const state = useSelector((state) => state);
-  const selectedDate = state.date;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
 
-    const dateName = selectedDate.toLocaleString("en-US", { month: "long" });
-    setMonthName(dateName);
+    if (state.month) {
 
-    const fetchRecords = async () => {
-      const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
-      const startDate = month + "-01";
-      const endDate = month + "-" + new Date(selectedDate.getFullYear(), month, 0).getDate();
+      const selectedDate = new Date(state.month + "/01/2022");
+      const monthName = selectedDate.toLocaleString("en-US", { month: "long" });
 
-      const records = await weatherService.getMonthlyRecords(state.location.station, startDate, endDate);
+      setMonthName(monthName);
 
-      setRecords(records);
-      setIsLoading(false);
+      const fetchRecords = async () => {
+        const startDate = state.month + "-01";
+        const endDate = state.month + "-" + new Date(selectedDate.getFullYear(), state.month, 0).getDate();
+        const records = await weatherService.getMonthlyRecords(state.location.station, startDate, endDate);
+
+        setRecords(records);
+        setIsLoading(false);
+      }
+
+      fetchRecords();
     }
-
-    fetchRecords();
-  }, [selectedDate])
+  }, [state.month, state.location.station])
 
   const getSnowRecords = (value, date) => {
-    if(value && value > 0)
-    {
+    if (value && value > 0) {
       return (<div>{value}'' <sup>({new Date(date).getFullYear()})</sup></div>)
     }
-    else if(value === "T")
-    {
+    else if (value === "T") {
       return (<div>T <sup>({new Date(date).getFullYear()})</sup></div>)
     }
-      
+
     return "--";
   }
   return (
@@ -54,7 +55,10 @@ function MonthlyRecords() {
         <Row>
           <Col xs={12} className="form-group">
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-              <h1 className="h2 mb-0 text-gray-800">{monthName} Records</h1>
+              <div>
+                <div><SetMonth /></div>
+                <h1 className="h2 mt-4 text-gray-800">{monthName} Records</h1>
+              </div>
             </div>
             <Row>
               <Col xs={12} className="mb-2">
@@ -66,62 +70,62 @@ function MonthlyRecords() {
                           <th>Date</th>
                           <th>High
                             <div>
-                            {!isLoading &&
-                              <small>({new Date(records.meta.valid_daterange[0][0]).getFullYear()}-{new Date(records.meta.valid_daterange[0][1]).getFullYear()})</small>
-                            }
-                            {isLoading &&                            
-                              <Skeleton  />
-                            }
+                              {!isLoading && records &&
+                                <small>({new Date(records.meta.valid_daterange[0][0]).getFullYear()}-{new Date(records.meta.valid_daterange[0][1]).getFullYear()})</small>
+                              }
+                              {isLoading &&
+                                <Skeleton />
+                              }
                             </div>
                           </th>
                           <th>Low
-                          <div>
-                            {!isLoading &&
-                              <small>({new Date(records.meta.valid_daterange[1][0]).getFullYear()}-{new Date(records.meta.valid_daterange[1][1]).getFullYear()})</small>
-                            }
-                            {isLoading &&                            
-                              <Skeleton  />
-                            }
+                            <div>
+                              {!isLoading && records &&
+                                <small>({new Date(records.meta.valid_daterange[1][0]).getFullYear()}-{new Date(records.meta.valid_daterange[1][1]).getFullYear()})</small>
+                              }
+                              {isLoading &&
+                                <Skeleton />
+                              }
                             </div>
                           </th>
                           <th>Coldest High
-                          <div>
-                            {!isLoading &&
-                              <small>({new Date(records.meta.valid_daterange[2][0]).getFullYear()}-{new Date(records.meta.valid_daterange[2][1]).getFullYear()})</small>
-                            }
-                            {isLoading &&                            
-                              <Skeleton  />
-                            }
+                            <div>
+                              {!isLoading &&
+                                <small>({new Date(records.meta.valid_daterange[2][0]).getFullYear()}-{new Date(records.meta.valid_daterange[2][1]).getFullYear()})</small>
+                              }
+                              {isLoading &&
+                                <Skeleton />
+                              }
                             </div>
                           </th>
                           <th>Warmest Low
-                          <div>
-                            {!isLoading &&
-                              <small>({new Date(records.meta.valid_daterange[3][0]).getFullYear()}-{new Date(records.meta.valid_daterange[3][1]).getFullYear()})</small>
-                            }
-                            {isLoading &&                            
-                              <Skeleton  />
-                            }
+                            <div>
+                              {!isLoading &&
+                                <small>({new Date(records.meta.valid_daterange[3][0]).getFullYear()}-{new Date(records.meta.valid_daterange[3][1]).getFullYear()})</small>
+                              }
+                              {isLoading &&
+                                <Skeleton />
+                              }
                             </div>
                           </th>
                           <th>Precip
-                          <div>
-                            {!isLoading &&
-                              <small>({new Date(records.meta.valid_daterange[4][0]).getFullYear()}-{new Date(records.meta.valid_daterange[4][1]).getFullYear()})</small>
-                            }
-                            {isLoading &&                            
-                              <Skeleton  />
-                            }
+                            <div>
+                              {!isLoading &&
+                                <small>({new Date(records.meta.valid_daterange[5][0]).getFullYear()}-{new Date(records.meta.valid_daterange[5][1]).getFullYear()})</small>
+                              }
+                              {isLoading &&
+                                <Skeleton />
+                              }
                             </div>
                           </th>
                           <th>Snow
-                          <div>
-                            {!isLoading &&
-                              <small>({new Date(records.meta.valid_daterange[5][0]).getFullYear()}-{new Date(records.meta.valid_daterange[5][1]).getFullYear()})</small>
-                            }
-                            {isLoading &&                            
-                              <Skeleton  />
-                            }
+                            <div>
+                              {!isLoading &&
+                                <small>({new Date(records.meta.valid_daterange[4][0]).getFullYear()}-{new Date(records.meta.valid_daterange[4][1]).getFullYear()})</small>
+                              }
+                              {isLoading &&
+                                <Skeleton />
+                              }
                             </div>
                           </th>
                         </tr>
@@ -155,9 +159,9 @@ function MonthlyRecords() {
                         {isLoading &&
                           <tr>
                             <td colSpan={7}>
-                             <Skeleton count={31} />
+                              <Skeleton count={31} />
                             </td>
-                            
+
                           </tr>
                         }
                       </tbody>

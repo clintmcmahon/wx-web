@@ -1,4 +1,4 @@
-import { LOCATION_CHANGE, DATE_CHANGE } from '../constants';
+import { LOCATION_CHANGE, DATE_CHANGE, MONTH_CHANGE } from '../constants';
 
 export function changeLocation(location) {
     return {
@@ -11,5 +11,12 @@ export function changeDate(date) {
     return {
         type: DATE_CHANGE,
         payload: date
+    }
+}
+
+export function changeMonth(month) {
+    return {
+        type: MONTH_CHANGE,
+        payload: month
     }
 }
