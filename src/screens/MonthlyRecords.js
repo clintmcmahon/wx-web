@@ -29,7 +29,7 @@ function MonthlyRecords() {
         const startDate = state.month + "-01";
         const endDate = state.month + "-" + new Date(selectedDate.getFullYear(), state.month, 0).getDate();
         const records = await weatherService.getMonthlyRecords(state.location.station, startDate, endDate);
-
+        console.log(records)
         setRecords(records);
         setIsLoading(false);
       }
@@ -60,6 +60,152 @@ function MonthlyRecords() {
                 <h1 className="h2 mt-4 text-gray-800">{monthName} Records</h1>
               </div>
             </div>
+            <Row>
+              <Col s={6} md={2} className="mb-2">
+                <div className="card border-left-danger shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                          Warmest Avg. Temp{" "}
+                          {records ? `(${records.summary.warmestAvgTemp[1].substring(0, 4)})` : ""}
+                        </div>
+                        {isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            <Skeleton width={100} />
+                          </div>
+                        )}
+                        {!isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {records ? `${Math.round(records.summary.warmestAvgTemp[0] * 100) / 100}℉` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col s={6} md={2} className="mb-2">
+                <div className="card border-left-primary shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Coldest Avg. Temp{" "}
+                          {records ? `(${records.summary.coldestAvgTemp[1].substring(0, 4)})` : ""}
+                        </div>
+                        {isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            <Skeleton width={100} />
+                          </div>
+                        )}
+                        {!isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {records ? `${Math.round(records.summary.coldestAvgTemp[0] * 100) / 100}℉` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col s={6} md={2} className="mb-2">
+                <div className="card border-left-success shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                          Wettest{" "}
+                          {records ? `(${records.summary.mostPrecip[1].substring(0, 4)})` : ""}
+                        </div>
+                        {isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            <Skeleton width={100} />
+                          </div>
+                        )}
+                        {!isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {records ? `${Math.round(records.summary.mostPrecip[0] * 100) / 100}''` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col s={6} md={2} className="mb-2">
+                <div className="card border-left-warning shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                          Driest{" "}
+                          {records ? `(${records.summary.leastPrecip[1].substring(0, 4)})` : ""}
+                        </div>
+                        {isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            <Skeleton width={100} />
+                          </div>
+                        )}
+                        {!isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {records ? `${Math.round(records.summary.leastPrecip[0] * 100) / 100}''` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col s={6} md={2} className="mb-2">
+                <div className="card border-left-success shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                          Most snow{" "}
+                          {records ? `(${records.summary.mostSnow[1].substring(0, 4)})` : ""}
+                        </div>
+                        {isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            <Skeleton width={100} />
+                          </div>
+                        )}
+                        {!isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {records ? `${Math.round(records.summary.mostSnow[0] * 100) / 100}''` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col s={6} md={2} className="mb-2">
+                <div className="card border-left-warning shadow h-100 py-2">
+                  <div className="card-body">
+                    <div className="row no-gutters align-items-center">
+                      <div className="col mr-2">
+                        <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                          Least snow{" "}
+                          {records ? `(${records.summary.leastSnow[1].substring(0, 4)})` : ""}
+                        </div>
+                        {isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            <Skeleton width={100} />
+                          </div>
+                        )}
+                        {!isLoading && (
+                          <div className="h5 mb-0 font-weight-bold text-gray-800">
+                            {records ? `${Math.round(records.summary.leastSnow[0] * 100) / 100}''` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
             <Row>
               <Col xs={12} className="mb-2">
                 <div className="card shadow h-100 py-2">

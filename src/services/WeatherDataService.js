@@ -107,11 +107,14 @@ export const getRecords = async (selectedStation, startDate, endDate) => {
 
 export const getMonthlyRecords = async (selectedStation, startDate, endDate) => {
 
-  const [recordsResponse, recordsSummaryResponse] = await Promise.all([
+  const [recordsResponse, recordsSummaryResponse, recordsSummaryPrecipResponse] = await Promise.all([
     getMonthlyRecordsResponse(selectedStation, startDate, endDate),
-    getMonthlySummaryRecordsResponse(selectedStation, startDate.substring(0,2), endDate.substring(0,2))]);
-  const [recordsJson, recordsSummaryJson] = await Promise.all([recordsResponse.json(), recordsSummaryResponse.json()]);
+    getMonthlySummaryRecordsResponse(selectedStation, startDate.substring(0, 2), endDate.substring(0, 2)),
+    getMonthlySummaryPrecipRecordsResponse(selectedStation, startDate, endDate)
+  ]);
+  const [recordsJson, recordsSummaryJson, recordsSummaryPrecipJson] = await Promise.all([recordsResponse.json(), recordsSummaryResponse.json(), recordsSummaryPrecipResponse.json()]);
 
+  console.log(recordsSummaryPrecipJson)
   const records = {
     highTemps: recordsJson.smry[0],
     lowTemps: recordsJson.smry[1],
@@ -121,8 +124,12 @@ export const getMonthlyRecords = async (selectedStation, startDate, endDate) => 
     precips: recordsJson.smry[5],
     meta: recordsJson.meta,
     summary: {
-      avgHigh: recordsSummaryJson.smry[0][0][1],
-      avgLow: recordsSummaryJson.smry[0][0][2],
+      warmestAvgTemp: recordsSummaryJson.smry[0][0][1],
+      coldestAvgTemp: recordsSummaryJson.smry[0][0][2],
+      mostPrecip: recordsSummaryPrecipJson.smry[0][1],
+      leastPrecip: recordsSummaryPrecipJson.smry[0][2],
+      mostSnow: recordsSummaryPrecipJson.smry[1][1],
+      leastSnow: recordsSummaryPrecipJson.smry[1][2],
     }
   };
 
@@ -232,8 +239,8 @@ const getMonthlySummaryRecordsResponse = (selectedStation, startDate, endDate) =
         groupby: ["year", startDate, endDate],
         smry: [{ "reduce": "mean" }, { "reduce": "max", "add": "date" }, { "reduce": "min", "add": "date" }]
       }],
-    sDate: "por", 
-    eDate: "por", 
+    sDate: "por",
+    eDate: "por",
     meta: ["name", "state", "sids"]
   }
 
@@ -245,6 +252,56 @@ const getMonthlySummaryRecordsResponse = (selectedStation, startDate, endDate) =
     redirect: "follow",
     body: JSON.stringify(recordsQuery),
   });
+
+}
+
+const getMonthlySummaryPrecipRecordsResponse = (selectedStation, startDate, endDate) => {
+  const recordsQuery = {
+    sid: selectedStation,
+      elems:[
+      {
+          interval:[1,0,0],
+          duration:"std",
+          name:"pcpn",
+          reduce:{
+              reduce:"sum"
+          },
+          prec:3,
+          smry:[
+              {reduce:"mean"},
+              {reduce:"max","add":"date"},
+              {reduce:"min","add":"date"}
+          ],
+          season_start:startDate
+      },
+      {
+        interval:[1,0,0],
+        duration:"std",
+        name:"snow",
+        reduce:{
+            reduce:"sum"
+        },
+        prec:3,
+        smry:[
+            {reduce:"mean"},
+            {reduce:"max","add":"date"},
+            {reduce:"min","add":"date"}
+        ],
+        season_start:startDate
+    }],
+      sDate:"1871-01-31",
+      eDate:new Date().getFullYear() + "-" + endDate,
+      meta:[]
+  }
+
+return fetch(dataUrl, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  redirect: "follow",
+  body: JSON.stringify(recordsQuery),
+});
 
 }
 
