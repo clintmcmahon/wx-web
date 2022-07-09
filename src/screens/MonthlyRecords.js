@@ -61,6 +61,12 @@ function MonthlyRecords() {
               </div>
             </div>
             <Row>
+              <Col xs={12}>
+                <h3>Month records</h3>
+                <hr />
+              </Col>
+            </Row>
+            <Row>
               <Col s={6} md={2} className="mb-2">
                 <div className="card border-left-danger shadow h-100 py-2">
                   <div className="card-body">
@@ -149,7 +155,9 @@ function MonthlyRecords() {
                         )}
                         {!isLoading && (
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            {records ? `${Math.round(records.summary.leastPrecip[0] * 100) / 100}''` : ""}
+                            {records && records.summary.leastPrecip[0] !== "T" ? `${Math.round(records.summary.leastPrecip[0] * 100) / 100}''` : ""}
+
+                            {records && records.summary.leastPrecip[0] === "T" ? `Trace` : ""}
                           </div>
                         )}
                       </div>
@@ -173,7 +181,9 @@ function MonthlyRecords() {
                         )}
                         {!isLoading && (
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            {records ? `${Math.round(records.summary.mostSnow[0] * 100) / 100}''` : ""}
+                            {records && records.summary.mostSnow[0] !== "T" ? `${Math.round(records.summary.mostSnow[0] * 100) / 100}''` : ""}
+
+                            {records && records.summary.mostSnow[0] === "T" ? `Trace` : ""}
                           </div>
                         )}
                       </div>
@@ -197,13 +207,21 @@ function MonthlyRecords() {
                         )}
                         {!isLoading && (
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            {records ? `${Math.round(records.summary.leastSnow[0] * 100) / 100}''` : ""}
+                            {records &&  records.summary.leastSnow[0] !== "T" ? `${Math.round(records.summary.leastSnow[0] * 100) / 100}''` : ""}
+
+                            {records &&  records.summary.leastSnow[0] === "T" ? `Trace` : ""}
                           </div>
                         )}
                       </div>
                     </div>
                   </div>
                 </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <h3>Daily records</h3>
+                <hr />
               </Col>
             </Row>
             <Row>

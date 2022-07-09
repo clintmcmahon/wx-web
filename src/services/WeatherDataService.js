@@ -289,7 +289,7 @@ const getMonthlySummaryPrecipRecordsResponse = (selectedStation, startDate, endD
         ],
         season_start:startDate
     }],
-      sDate:"1871-01-31",
+      sDate: "1871" + "-" + endDate,
       eDate:new Date().getFullYear() + "-" + endDate,
       meta:[]
   }
