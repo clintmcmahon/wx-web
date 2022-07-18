@@ -4,17 +4,14 @@ import { changeDate } from "../../actions/locations";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
-import Select from 'react-select';
 import DatePicker from "react-datepicker";
 
 function SetDate() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const selectedDateChange = (date) => {
-    setSelectedDate(date)
+    console.log(date)
     dispatch(changeDate(date));
   }
 
@@ -27,7 +24,7 @@ function SetDate() {
               <Form.Label>Choose a day</Form.Label>
               <DatePicker
                 className="form-control"
-                selected={selectedDate}
+                selected={state.date}
                 onChange={selectedDateChange}
               />
             </Col>
